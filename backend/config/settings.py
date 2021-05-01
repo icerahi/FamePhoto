@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
-
+import sys 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+ 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -31,7 +31,16 @@ INSTALLED_APPS = [
     'rest_framework',
   
     'corsheaders',
+
+    #local
+    'apps.photos',
+    'apps.albums',
+    'apps.accounts',
+    'apps.authentication',
+  
 ]
+
+ 
 
 MIDDLEWARE = [
     #3rd_patry
@@ -102,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
@@ -134,3 +143,4 @@ CORS_ALLOWED_ORIGINS=[
 ]
 CORS_URLS_REGEX = r'^/api.*'
 
+from .rest_config import *
