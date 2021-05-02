@@ -16,6 +16,10 @@ class AlbumListCreateAPIView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_serializer_context(self):
+        return {'request':self.request}
+
+
 
 class AlbumDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset               = Album.objects.public()
@@ -23,3 +27,7 @@ class AlbumDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes     = [permissions.IsAuthenticatedOrReadOnly,ObjectOwnerOrReadOnly]
     authentication_classes = [BasicAuthentication,SessionAuthentication]
     lookup_field           = "id"
+
+
+    def get_serializer_context(self):
+        return {'request':self.request}

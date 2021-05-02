@@ -7,8 +7,10 @@ from apps.accounts.serializers import UserProfileSerializer
 from apps.accounts.models import Profile
 from django.contrib.auth import get_user_model
 from apps.albums.views import AlbumListCreateAPIView
-from apps.albums.serializers import AlbumInlineSerializer
+from apps.albums.serializers import AlbumSerializer,AlbumInlineSerializer
 from apps.albums.models import Album
+from rest_framework.response import Response
+
 User = get_user_model()
 
 class ProfileAPIView(generics.RetrieveUpdateAPIView):
@@ -22,9 +24,8 @@ class ProfileAPIView(generics.RetrieveUpdateAPIView):
         return {'request':self.request}
 
 
-
 class UserPublicAlbumAPIView(AlbumListCreateAPIView):
-    serializer_class    = AlbumInlineSerializer
+    serializer_class    = AlbumSerializer
 
     def get_queryset(self,*args, **kwargs):
         username = self.kwargs.get('username',None)
@@ -32,6 +33,8 @@ class UserPublicAlbumAPIView(AlbumListCreateAPIView):
             return Album.objects.none()
         return Album.objects.filter(user__username=username,keep_private=False)
 
+    def post(self, request, *args, **kwargs):
+        return Response({'detail':'Post request not allowed here!'},status=400)
 
 class UserPrivateAlbumAPIView(UserPublicAlbumAPIView):
     permission_classes = [ObjectOwnerOnly]
@@ -40,5 +43,21 @@ class UserPrivateAlbumAPIView(UserPublicAlbumAPIView):
         if username is None:
             return Album.objects.none()
         return Album.objects.filter(user__username=username,keep_private=True)
+
+    def post(self, request, *args, **kwargs):
+        return Response({'detail':'Post request not allowed here!'},status=400)
+    
+
+class UserAllAlbumAPIView(UserPrivateAlbumAPIView):
+    serializer_class    = AlbumInlineSerializer
+    def get_queryset(self,*args, **kwargs):
+        username = self.kwargs.get('username',None)
+        if username is None:
+            return Album.objects.none()
+        return Album.objects.filter(user__username=username,)
+
+    def post(self, request, *args, **kwargs):
+        return Response({'detail':'Post request not allowed here!'},status=400)
+
     
     

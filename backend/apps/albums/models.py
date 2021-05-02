@@ -35,5 +35,5 @@ class Album(models.Model):
 @receiver(post_save,sender=settings.AUTH_USER_MODEL)
 def auto_create_default_album(sender,instance,created,**kwargs):
     if created:
-        Album.objects.get_or_create(id=instance.id,user=instance,name=f"Quick Save",)
+        Album.objects.get_or_create(user=instance,name=f"Quick Save",)
 

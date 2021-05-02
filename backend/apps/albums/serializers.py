@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from apps.albums.models import Album 
+from apps.albums.models import Album
 from apps.accounts.serializers import UserPublicSerializer
 from rest_framework.reverse import reverse as drf_reverse
 from apps.photos.models import Photo
@@ -8,9 +8,9 @@ from apps.photos.models import Photo
 #for avoid circuler import error we write our PhotoInlineSerialzer here
 class PhotoInlineSerializer(serializers.ModelSerializer):
     uri         = serializers.SerializerMethodField(read_only=True)
-       
+
     class Meta:
-        model   = Photo 
+        model   = Photo
         fields  =(
             'uri',
             'id',
@@ -18,9 +18,11 @@ class PhotoInlineSerializer(serializers.ModelSerializer):
             'photo',
         )
         read_only_fields= ['user',]
-    
+
     def get_uri(self,obj):
-        return drf_reverse('photos:detail',kwargs={'id':obj.id})
+        request = self.context.get('request')
+        return drf_reverse('photos:detail',kwargs={'id':obj.id},request=request)
+
 
 class AlbumSerializer(serializers.ModelSerializer):
     uri     = serializers.SerializerMethodField(read_only=True)
@@ -39,12 +41,13 @@ class AlbumSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
     def get_photos(self,obj):
+        request = self.context.get('request')
         photos = obj.photo_set.all()
-        return PhotoInlineSerializer(photos,many=True).data
+        return PhotoInlineSerializer(photos,many=True,context=({"request":request})).data
 
     def get_uri(self,obj):
-        request = self.context['request']
-        return drf_reverse('albums:detail',kwargs={'id':obj.id},request=request)
+       request = self.context.get('request')
+       return drf_reverse('albums:detail',kwargs={'id':obj.id},request=request)
 
     
 
@@ -57,4 +60,4 @@ class AlbumInlineSerializer(AlbumSerializer):
             'name',
             'keep_private',
          )
-        read_only_fields = ('user',)
+         

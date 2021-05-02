@@ -14,6 +14,11 @@ class PhotoListCreateAPIView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    def get_serializer_context(self):
+        return {'request':self.request}
+
+      
+
 
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes=[permissions.IsAuthenticatedOrReadOnly,ObjectOwnerOrReadOnly]
@@ -21,6 +26,10 @@ class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset         = Photo.objects.public().order_by('-created')
     serializer_class = PhotoSerializer
     lookup_field     = 'id'
+
+    def get_serializer_context(self):
+        return {'request':self.request}
+
 
  
 

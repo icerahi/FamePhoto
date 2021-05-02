@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from apps.accounts.models import Profile
- 
+from rest_framework.reverse import reverse as drf_reverse
+
+
 User = get_user_model()
 
 class UserPublicSerializer(serializers.ModelSerializer):
@@ -15,7 +17,8 @@ class UserPublicSerializer(serializers.ModelSerializer):
         )
 
     def get_uri(self,obj):
-        return f'/{obj.username}'
+        request = self.context.get('request')
+        return drf_reverse('accounts:profile',kwargs={'username':obj.username},request=request)
 
     
 
@@ -40,6 +43,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     uri = serializers.SerializerMethodField(read_only=True)
     profile = ProfileSerializer()
     albums  = serializers.SerializerMethodField(read_only=True)
+     
     class Meta:
         model = User
         fields = (
@@ -58,11 +62,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
         request = self.context.get('request')
         public = obj.album_set.filter(keep_private=False)
         data = {
-            'public':"http://public.com"
+            'public':drf_reverse('accounts:public_albums',kwargs={'username':obj.username},request=request)
         }
         if request.user==obj:
-            data['private']= "http://private.com"
-
+            data['private']= drf_reverse('accounts:public_albums',kwargs={'username':obj.username},request=request)
+            data['all_albums']= drf_reverse('accounts:all_albums',kwargs={'username':obj.username},request=request)
         return data
 
     def get_uri(self,obj):

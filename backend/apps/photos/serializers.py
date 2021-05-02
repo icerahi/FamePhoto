@@ -22,11 +22,12 @@ class PhotoSerializer(serializers.ModelSerializer):
         read_only_fields= ['user',]
 
     def to_representation(self,instance):
+        request = self.context.get('request')
         response = super().to_representation(instance)
-        response['album'] = AlbumInlineSerializer(instance.album).data
+        response['album'] = AlbumInlineSerializer(instance.album,context={'request':request}).data
         return response         
     
     def get_uri(self,obj):
-        request = self.context['request']
+        request = self.context.get('request')
         return drf_reverse('photos:detail',kwargs={'id':obj.id},request=request)
 
