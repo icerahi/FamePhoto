@@ -8,8 +8,8 @@ from apps.photos.permissions import PrivateAndPublicAlbumsPhotoPermission
 
 
 class PhotoListCreateAPIView(generics.ListCreateAPIView):
-    permission_classes=[permissions.IsAuthenticatedOrReadOnly,]
-    authentication_classes=[SessionAuthentication,BasicAuthentication]
+    #permission_classes=[permissions.IsAuthenticatedOrReadOnly,]
+    #authentication_classes=[SessionAuthentication,BasicAuthentication]
     queryset         = Photo.objects.public().order_by('-created')
     serializer_class = PhotoSerializer   
 
@@ -23,8 +23,8 @@ class PhotoListCreateAPIView(generics.ListCreateAPIView):
 
 
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes     = [permissions.IsAuthenticatedOrReadOnly,PrivateAndPublicAlbumsPhotoPermission]
-    authentication_classes = [BasicAuthentication,SessionAuthentication]
+    permission_classes     = [PrivateAndPublicAlbumsPhotoPermission]
+    # authentication_classes = [BasicAuthentication,SessionAuthentication]
     queryset         = Photo.objects.all().order_by('-created')
     serializer_class = PhotoSerializer
     lookup_field     = 'id'

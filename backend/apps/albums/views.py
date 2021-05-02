@@ -11,8 +11,8 @@ from rest_framework.authentication import SessionAuthentication,BasicAuthenticat
 class AlbumListCreateAPIView(generics.ListCreateAPIView):
     queryset                = Album.objects.public()
     serializer_class        = AlbumInlineSerializer
-    permission_classes      = [permissions.IsAuthenticatedOrReadOnly,]
-    authentication_classes  = [BasicAuthentication,SessionAuthentication]
+    #permission_classes      = [permissions.IsAuthenticatedOrReadOnly,]
+    # authentication_classes  = [BasicAuthentication,SessionAuthentication]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -25,8 +25,8 @@ class AlbumListCreateAPIView(generics.ListCreateAPIView):
 class AlbumDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset               = Album.objects.all()
     serializer_class       = AlbumSerializer
-    permission_classes     = [permissions.IsAuthenticatedOrReadOnly,PrivateAndPublicAlbumPermission]
-    authentication_classes = [BasicAuthentication,SessionAuthentication]
+    permission_classes     = [PrivateAndPublicAlbumPermission]
+    # authentication_classes = [BasicAuthentication,SessionAuthentication]
     lookup_field           = "id"
     
 

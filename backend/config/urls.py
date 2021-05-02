@@ -11,6 +11,7 @@ urlpatterns = [
     path('api/photos/',include(('apps.photos.urls','photos'),namespace='photos')),
     path('api/accounts/',include(('apps.accounts.urls','accounts'),namespace='accounts')),
     path('api/albums/',include(('apps.albums.urls','albums'),namespace='albums')),
+    path('api/auth/',include(('apps.authentication.urls','authentication'),namespace='auth')),
 ]
 
 if settings.DEBUG:

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import permissions
-from rest_framework.authentication import SessionAuthentication
+from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from apps.accounts.permissions import ProfileOwnerOrReadOnly,ObjectOwnerOnlyAccess
 from apps.accounts.serializers import UserProfileSerializer
 from apps.accounts.models import Profile
@@ -15,8 +15,7 @@ from rest_framework.response import Response
 User = get_user_model()
 
 class ProfileAPIView(generics.RetrieveUpdateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,ProfileOwnerOrReadOnly]
-    authentication_classes = [SessionAuthentication,]
+    permission_classes = [ProfileOwnerOrReadOnly]
     queryset    = User.objects.all()
     serializer_class = UserProfileSerializer
     lookup_field = 'username'
