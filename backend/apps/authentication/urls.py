@@ -4,5 +4,6 @@ from apps.authentication import views
 urlpatterns = [
     # path('login/',obtain_jwt_token),#default jwt login
     path('login/',views.AuthAPIView.as_view(),name='login'),
+    path('register/',views.RegisterAPIView.as_view(),name='register'),
     path('token_refresh/',refresh_jwt_token),
 ]
