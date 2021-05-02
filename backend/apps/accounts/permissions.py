@@ -1,6 +1,8 @@
 from rest_framework import permissions
 from apps.albums.models import Album
 
+
+## can usable globally
 class ObjectOwnerOrReadOnly(permissions.BasePermission):
     message = "You must be the owner of this content to make update"
 
@@ -12,12 +14,12 @@ class ObjectOwnerOrReadOnly(permissions.BasePermission):
             return True
     
      
-
-class ObjectOwnerOnly(permissions.BasePermission):
+## only usable for accounts app ,with <username> url parameter
+class ObjectOwnerOnlyAccess(permissions.BasePermission):
 
     message = "Only Owner can access this!!"
     """
-    permisson check for private album owner or not
+    permisson check for  album owner or not, and global restricted for others
      """
 
     def has_permission(self, request, view):
@@ -26,14 +28,7 @@ class ObjectOwnerOnly(permissions.BasePermission):
             return True
 
 
-
-
-
-  
-   
-    
-
-
+## only usable for accounts app's profile view
 class ProfileOwnerOrReadOnly(permissions.BasePermission):
     message = "You must be the owner of this conent to make update"
 

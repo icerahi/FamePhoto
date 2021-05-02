@@ -4,6 +4,8 @@ from apps.photos.models import Photo
 from apps.photos.serializers import PhotoSerializer
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication
 from apps.accounts.permissions import ObjectOwnerOrReadOnly
+from apps.photos.permissions import PrivateAndPublicAlbumsPhotoPermission
+
 
 class PhotoListCreateAPIView(generics.ListCreateAPIView):
     permission_classes=[permissions.IsAuthenticatedOrReadOnly,]
@@ -21,9 +23,9 @@ class PhotoListCreateAPIView(generics.ListCreateAPIView):
 
 
 class PhotoDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes=[permissions.IsAuthenticatedOrReadOnly,ObjectOwnerOrReadOnly]
-    authentication_classes=[SessionAuthentication,]
-    queryset         = Photo.objects.public().order_by('-created')
+    permission_classes     = [permissions.IsAuthenticatedOrReadOnly,PrivateAndPublicAlbumsPhotoPermission]
+    authentication_classes = [BasicAuthentication,SessionAuthentication]
+    queryset         = Photo.objects.all().order_by('-created')
     serializer_class = PhotoSerializer
     lookup_field     = 'id'
 

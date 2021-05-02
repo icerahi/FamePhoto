@@ -1,20 +1,23 @@
 from rest_framework import permissions
-from apps.albums.models import Album 
+from apps.photos.models import Photo 
 
 
-class PrivateAndPublicAlbumPermission(permissions.BasePermission):
+class PrivateAndPublicAlbumsPhotoPermission(permissions.BasePermission):
+
     message = "Only Owner can access this!!"
+
     """
-    Only Album Owner can view and update private album, keep restricted private album and keep
-    readonly public album for others
+    Only Album Owner can view and update private albums Photo, keep restricted private albums photo and keep
+    readonly public albums photo for others
      """
+
     def has_permission(self, request,view):
-        obj = Album.objects.get(id=view.kwargs.get('id'))
+        obj = Photo.objects.get(id=view.kwargs.get('id'))
 
         if obj.user == request.user:
             return True
  
-        if obj.keep_private == False and obj.user!= request.user:
+        if obj.album.keep_private == False and obj.user!= request.user:
             return True
 
     """ object level permission ,Is Owner of object or Keep readonly for others"""

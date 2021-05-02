@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import permissions
-from apps.accounts.permissions import ObjectOwnerOrReadOnly,ObjectOwnerOnly
-from apps.albums.permissions import PrivateAlbumOwneronly
+from apps.accounts.permissions import ObjectOwnerOrReadOnly
+from apps.albums.permissions import PrivateAndPublicAlbumPermission
 from apps.albums.models import Album
 from apps.albums.serializers import AlbumSerializer,AlbumInlineSerializer
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication
@@ -25,7 +25,7 @@ class AlbumListCreateAPIView(generics.ListCreateAPIView):
 class AlbumDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset               = Album.objects.all()
     serializer_class       = AlbumSerializer
-    permission_classes     = [permissions.IsAuthenticatedOrReadOnly,PrivateAlbumOwneronly]
+    permission_classes     = [permissions.IsAuthenticatedOrReadOnly,PrivateAndPublicAlbumPermission]
     authentication_classes = [BasicAuthentication,SessionAuthentication]
     lookup_field           = "id"
     
