@@ -11,10 +11,7 @@ class ObjectOwnerOrReadOnly(permissions.BasePermission):
         if obj.user == request.user:
             return True
     
-    def has_permission(self, request, view):
-        if request.method in permissions.SAFE_METHODS:
-            return True 
-                
+     
 
 class ObjectOwnerOnly(permissions.BasePermission):
 
@@ -27,6 +24,14 @@ class ObjectOwnerOnly(permissions.BasePermission):
         user = request.user
         if user.username == view.kwargs.get('username'):
             return True
+
+
+
+
+
+  
+   
+    
 
 
 class ProfileOwnerOrReadOnly(permissions.BasePermission):

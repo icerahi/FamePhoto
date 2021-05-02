@@ -65,12 +65,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'public':drf_reverse('accounts:public_albums',kwargs={'username':obj.username},request=request)
         }
         if request.user==obj:
-            data['private']= drf_reverse('accounts:public_albums',kwargs={'username':obj.username},request=request)
+            data['private']= drf_reverse('accounts:private_albums',kwargs={'username':obj.username},request=request)
             data['all_albums']= drf_reverse('accounts:all_albums',kwargs={'username':obj.username},request=request)
         return data
 
     def get_uri(self,obj):
-        return f'/{obj.username}/'
+        request = self.context.get('request')
+        return drf_reverse('accounts:profile',kwargs={'username':obj.username},request=request)
     
     def update(self,instance,validated_data):
         profile_data= ProfileSerializer(instance.profile,data=validated_data.get('profile'))

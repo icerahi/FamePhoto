@@ -33,9 +33,7 @@ class UserPublicAlbumAPIView(AlbumListCreateAPIView):
             return Album.objects.none()
         return Album.objects.filter(user__username=username,keep_private=False)
 
-    def post(self, request, *args, **kwargs):
-        return Response({'detail':'Post request not allowed here!'},status=400)
-
+ 
 class UserPrivateAlbumAPIView(UserPublicAlbumAPIView):
     permission_classes = [ObjectOwnerOnly]
     def get_queryset(self,*args, **kwargs):
@@ -44,9 +42,7 @@ class UserPrivateAlbumAPIView(UserPublicAlbumAPIView):
             return Album.objects.none()
         return Album.objects.filter(user__username=username,keep_private=True)
 
-    def post(self, request, *args, **kwargs):
-        return Response({'detail':'Post request not allowed here!'},status=400)
-    
+ 
 
 class UserAllAlbumAPIView(UserPrivateAlbumAPIView):
     serializer_class    = AlbumInlineSerializer
@@ -56,8 +52,8 @@ class UserAllAlbumAPIView(UserPrivateAlbumAPIView):
             return Album.objects.none()
         return Album.objects.filter(user__username=username,)
 
-    def post(self, request, *args, **kwargs):
-        return Response({'detail':'Post request not allowed here!'},status=400)
+    # def post(self, request, *args, **kwargs):
+    #     return Response({'detail':'Post request not allowed here!'},status=400)
 
     
     
