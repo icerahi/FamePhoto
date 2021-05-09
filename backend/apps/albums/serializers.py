@@ -1,3 +1,5 @@
+import json
+
 from rest_framework import serializers
 from apps.albums.models import Album
 from apps.accounts.serializers import UserPublicSerializer
@@ -51,7 +53,8 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     
 
-class AlbumInlineSerializer(AlbumSerializer):
+class AlbumInlineSerializerAlbumInlineSerializer(AlbumSerializer):
+    latest_photos = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model   = Album
         fields  =(
@@ -59,5 +62,9 @@ class AlbumInlineSerializer(AlbumSerializer):
             'id',
             'name',
             'keep_private',
+            'latest_photos',
          )
          
+    def get_latest_photos(self,obj):
+        latest=obj.photo_set.public()[:3]
+        return AlbumInlineSerializer(latest).data

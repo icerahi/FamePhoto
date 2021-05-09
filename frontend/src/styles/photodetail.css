@@ -1,0 +1,73 @@
+.screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+  
+    background-color: rgba(0, 0, 0, 0.5);
+     
+  }
+  
+  .screen .photo_details {
+    padding: 35px;
+    width: 80%;
+    height: 90%;
+    border-radius: 0;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+  
+    display: flex;
+  
+    background-color: white;
+ 
+  }
+  .screen .close img{
+    cursor: pointer;
+    margin: 2px;
+    height: 7%;
+    top: 0%;
+    right: 0%;
+    position: absolute;
+    font-weight: bold;
+     
+}
+.screen .backward{
+    cursor: pointer;
+    height: 10%;
+    top: 50%;
+    position: relative;
+    
+    left: 5%;
+}
+.screen .forward{
+    cursor: pointer;
+    height: 10%;
+    top: 50%;
+    position: relative;
+    left: 90;
+    left: 86%;
+}
+.screen .backward:hover,
+.screen .backward:focus{
+    cursor: pointer;
+    height: 10%;
+    top: 50%;
+    position: relative;
+    font-weight: bold;
+    left: 5%;
+}
+.screen .forward:hover,
+.screen .forward:hover{
+    cursor: pointer;
+    height: 10%;
+    top: 50%;
+    position: relative;
+    left: 86%;
+    font-weight: bold;
+}

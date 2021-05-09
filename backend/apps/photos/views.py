@@ -11,7 +11,7 @@ class PhotoListCreateAPIView(generics.ListCreateAPIView):
     #permission_classes=[permissions.IsAuthenticatedOrReadOnly,]
     #authentication_classes=[SessionAuthentication,BasicAuthentication]
     queryset         = Photo.objects.public().order_by('-created')
-    serializer_class = PhotoSerializer   
+    serializer_class = PhotoSerializer
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

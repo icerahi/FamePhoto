@@ -25,14 +25,13 @@ class AuthAPIView(APIView):
         password = data.get('password')
 
         user     = authenticate(username=username,password=password)
-        qs       = User.objects.get(
+        qs       = User.objects.filter(
             Q(username__iexact=username)|
             Q(email__iexact = username)
-        )
-        print(qs)
-        print(self.request.user)
-        if qs:
-            user_obj = qs 
+        ).distinct()
+  
+        if qs.count() == 1:
+            user_obj = qs.first()
             if user_obj.check_password(password):
                 user    = user_obj
                 payload = jwt_payload_handler(user)

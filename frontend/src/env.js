@@ -1,6 +1,7 @@
 import Cookies from "js-cookie";
 
-export const domain = "http://127.0.0.1:8000";
+export const domain = "http://127.0.0.1:8000/api";
+export const profile_url = domain+'/accounts'
 // export const domain = "";
 
 /*
@@ -9,11 +10,15 @@ export const domain = "http://127.0.0.1:8000";
     window.localStorage.clear();
     window.localStorage.getItem("token");
     */
-const token = "";
+// endpoints
+
+
+const token = window.localStorage.getItem("token");
+
 const csrftoken = Cookies.get("csrftoken");
 
 export const getheader = {
-  Authorization: `token ${token}`,
+  Authorization: `JWT ${token}`,
 };
 
 export const postheader = {

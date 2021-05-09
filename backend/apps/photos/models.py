@@ -23,7 +23,7 @@ class Photo(models.Model):
     user        = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
     album       = models.ForeignKey(Album,on_delete=models.CASCADE)
     caption     = models.CharField(max_length = 200,blank = True,null = True)
-    photo       = models.ImageField(upload_to = upload_photo,null=True,blank=True)
+    photo       = models.ImageField(upload_to = upload_photo)
 
     updated     = models.DateTimeField(auto_now = True)
     created     = models.DateTimeField(auto_now_add = True)
@@ -32,6 +32,9 @@ class Photo(models.Model):
       
     def __str__(self):
         return f'{self.album}-{self.caption}' or ""
+
+    class Meta:
+        ordering=['-updated']
 
  
  
