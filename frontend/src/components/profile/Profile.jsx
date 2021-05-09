@@ -1,5 +1,5 @@
 import React, { useState ,useEffect} from 'react'
-import Albums from './Albums'
+import ProfileAlbum from './ProfileAlbum'
 import Photos from './Photos'
 import './profile.css'
 
@@ -14,14 +14,15 @@ const Profile = () => {
     const [profileData, setprofileData] = useState(null)
     
     const [publicPhotos, setpublicPhotos] = useState(null)
-    const [publicAlbum, setPublicAlbum] = useState(null)
+    const [publicAlbums, setPublicAlbum] = useState(null)
 
     useEffect(() =>{
         const getProfile = async()=>{
             await axios.get(`${profile_url}/${username}/`) 
             .then(response => {
                 setprofileData(response.data)
-                axios.get(response.data?.photos?.public).then(response => setpublicPhotos(response.data))
+                axios.get(response.data?.photos?.public).then(res => setpublicPhotos(res.data))
+                axios.get(response.data?.albums?.public).then(res => setPublicAlbum(res.data))
                 })
            
             .catch((err) => console.log('something wrong'))
@@ -86,7 +87,7 @@ const Profile = () => {
             role="tab"
             aria-controls="ex1-tabs-1"
             aria-selected="true"
-            >Photos</a
+            >Albums</a
             >
         </li>
         <li class="nav-item" role="presentation">
@@ -98,7 +99,7 @@ const Profile = () => {
             role="tab"
             aria-controls="ex1-tabs-2"
             aria-selected="false"
-            >Albums</a
+            >Photos</a
             >
         </li>
         
@@ -114,10 +115,11 @@ const Profile = () => {
             aria-labelledby="ex1-tab-1"
         >
             
-            <Photos public_photos={publicPhotos} profile_data={profileData}/>
+            
+            <ProfileAlbum public_albums={publicAlbums} profile_data={profileData}/>
         </div>
         <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-            <Albums/>
+        <Photos public_photos={publicPhotos} profile_data={profileData}/>
         </div>
     
     </div>

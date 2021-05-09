@@ -11,7 +11,7 @@ const Header = () => {
 
       <div className="float-right ">
         <Link title="Home" className="nav-item m-3" to="/"><img src='/images/home.png' height="25" width="25"/></Link>
-        <Link title="Albums" className="nav-item  m-3" to="/"><img src='/images/album.png' height="25" width="25"/></Link>
+        <Link title="Albums" className="nav-item  m-3" to="/album"><img src='/images/album.png' height="25" width="25"/></Link>
         <Link title="Peoples" className="nav-item  m-3 " to="/"><img src='/images/peoples.png' height="25" width="25"/></Link>
         <Link title="Profile" className="nav-item  m-3 " to="/profile"><img src='/images/user.png' height="25" width="25"/></Link>
       </div>

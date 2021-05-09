@@ -46,12 +46,12 @@ const PhotoDetail = () => {
                         <hr />
                         <figure>
                         <blockquote className="blockquote m-2 ">
-                            <p class="display-5">
+                            <p title="Caption" class="display-5">
                             {data?.caption}
                             </p>
                         </blockquote>
                         <figcaption className="blockquote-footer h2 text-dark m-2">
-                            Album_ <cite class="text-dark h2" title="Source Title">{data?.album?.name}</cite>
+                           <Link to={`/album/${data?.album?.id}`}> Album_ <cite class="text-dark h2" title="Album Name">{data?.album?.name}</cite></Link>
                         </figcaption>
                         </figure>
                         

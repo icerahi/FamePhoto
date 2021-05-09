@@ -18,12 +18,13 @@ const Photos = ({public_photos,profile_data}) => {
                         <img class="img" src={data.photo} />  
 
                         <div  className="image-item-info">
-                            <Link to={`/${profile_data.username}`}>
-                            <div className="user_info  m-2 p-2">
-                                <img class="img-fluid rounded-circle" width="30px" height="30px" src={profile_data.profile.profile_pic} alt="" />
-                                <span className="h3 text-bold m-2 ">{profile_data?.username}</span>
+
+                          <div className="user_info  m-2">
+                            <Link to={`/${profile_data?.username}`}>
+                                <img class="img-fluid rounded-circle" width="30px" height="30px" src={profile_data?.profile?.profile_pic} alt={profile_data?.username} />
+                                <span className="h3 text-white m-2 ">{profile_data?.username}</span>
+                                </Link>
                             </div>
-                            </Link>
                    
                  
                                  

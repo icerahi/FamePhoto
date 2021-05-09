@@ -27,9 +27,10 @@ class PhotoInlineSerializer(serializers.ModelSerializer):
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    uri     = serializers.SerializerMethodField(read_only=True)
-    user    = UserPublicSerializer(read_only=True)
-    photos    = serializers.SerializerMethodField(read_only=True)
+    uri        = serializers.SerializerMethodField(read_only=True)
+    user       = UserPublicSerializer(read_only=True)
+    photos     = serializers.SerializerMethodField(read_only=True)
+    total_photo = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model   = Album
         fields  =(
@@ -39,8 +40,13 @@ class AlbumSerializer(serializers.ModelSerializer):
             'name',
             'keep_private',
             'photos',
+            "total_photo"
          )
         read_only_fields = ('user',)
+        
+    def get_total_photo(self,obj):
+        return obj.photo_set.all().count()
+
 
     def get_photos(self,obj):
         request = self.context.get('request')
@@ -53,8 +59,9 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     
 
-class AlbumInlineSerializerAlbumInlineSerializer(AlbumSerializer):
-    latest_photos = serializers.SerializerMethodField(read_only=True)
+class AlbumInlineSerializer(AlbumSerializer):
+    recent_photos = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model   = Album
         fields  =(
@@ -62,9 +69,14 @@ class AlbumInlineSerializerAlbumInlineSerializer(AlbumSerializer):
             'id',
             'name',
             'keep_private',
-            'latest_photos',
+            'recent_photos',
+            "total_photo"
          )
          
-    def get_latest_photos(self,obj):
-        latest=obj.photo_set.public()[:3]
-        return AlbumInlineSerializer(latest).data
+    def get_recent_photos(self,obj):
+        request = self.context.get('request')
+        recent=obj.photo_set.all()[:3]
+        return PhotoInlineSerializer(recent,many=True,context=({"request":request})).data
+
+
+

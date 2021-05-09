@@ -31,12 +31,14 @@ const Home = () => {
                         <img class="img" src={data.photo} />  
 
                         <div  className="image-item-info">
+                           
+                            <div className="user_info  m-2">
                             <Link to={`/${data.user.username}`}>
-                            <div className="user_info  m-2 p-2">
                                 <img class="img-fluid rounded-circle" width="30px" height="30px" src={data.user.profile_pic} alt="" />
                                 <span className="h3 text-white m-2 ">{data.user.username}</span>
+                                </Link>
                             </div>
-                            </Link>
+                        
                    
                  
                                  
@@ -47,7 +49,7 @@ const Home = () => {
                      
               ))
                }
-          </> ):( <h1>No posts yet!</h1> )}
+          </> ):(     <div classNameName="loader"></div>)}
                 
             </div>
         </div>
