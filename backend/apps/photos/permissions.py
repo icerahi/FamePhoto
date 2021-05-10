@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from apps.photos.models import Photo 
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class PrivateAndPublicAlbumsPhotoPermission(permissions.BasePermission):
@@ -12,13 +13,15 @@ class PrivateAndPublicAlbumsPhotoPermission(permissions.BasePermission):
      """
 
     def has_permission(self, request,view):
-        obj = Photo.objects.get(id=view.kwargs.get('id'))
-
-        if obj.user == request.user:
-            return True
- 
-        if obj.album.keep_private == False and obj.user!= request.user:
-            return True
+        try:
+            obj = Photo.objects.get(id=view.kwargs.get('id'))
+            if obj.user == request.user:
+                return True
+    
+            if obj.album.keep_private == False and obj.user!= request.user:
+                return True
+        except ObjectDoesNotExist:
+            self.message="Object not found!"
 
     """ object level permission ,Is Owner of object or Keep readonly for others"""
     def has_object_permission(self, request, view, obj):

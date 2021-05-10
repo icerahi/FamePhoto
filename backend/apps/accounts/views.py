@@ -3,7 +3,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.authentication import BasicAuthentication,SessionAuthentication
 from apps.accounts.permissions import ProfileOwnerOrReadOnly,ObjectOwnerOnlyAccess
-from apps.accounts.serializers import UserProfileSerializer
+from apps.accounts.serializers import UserProfileSerializer,UserPublicSerializer
 from apps.accounts.models import Profile
 from django.contrib.auth import get_user_model
 from apps.albums.views import AlbumListCreateAPIView
@@ -81,4 +81,7 @@ class UserPrivatePhotoAPIView(UserPublicPhotoAPIView):
         return Photo.objects.filter(user__username=username, album__keep_private=True)
 
  
+class AccountListApiView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserPublicSerializer
 

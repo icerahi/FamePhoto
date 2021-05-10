@@ -6,26 +6,6 @@ from rest_framework.reverse import reverse as drf_reverse
 
 User = get_user_model()
 
-class UserPublicSerializer(serializers.ModelSerializer):
-    uri         = serializers.SerializerMethodField(read_only=True)
-    profile_pic = serializers.SerializerMethodField(read_only=True)
-    class Meta:
-        model = User 
-        fields = (
-            'uri',
-            'id',
-            'username',
-            'profile_pic',
-        )
-
-    def get_profile_pic(self,obj):
-        return self.context['request'].build_absolute_uri(obj.profile.profile_pic.url)
-
-    def get_uri(self,obj):
-        request = self.context.get('request')
-        return drf_reverse('accounts:profile',kwargs={'username':obj.username},request=request)
-
-    
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -104,5 +84,28 @@ class UserProfileSerializer(serializers.ModelSerializer):
         instance.save()
         return instance 
 
+
+    
+
+class UserPublicSerializer(UserProfileSerializer):
+    uri         = serializers.SerializerMethodField(read_only=True)
+    profile_pic = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model = User 
+        fields = (
+            'uri',
+            'id',
+            'username',
+            'profile_pic',
+            'total_photo',
+            'total_album',
+        )
+
+    def get_profile_pic(self,obj):
+        return self.context['request'].build_absolute_uri(obj.profile.profile_pic.url)
+
+    def get_uri(self,obj):
+        request = self.context.get('request')
+        return drf_reverse('accounts:profile',kwargs={'username':obj.username},request=request)
 
     

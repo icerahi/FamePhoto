@@ -41,33 +41,37 @@
     cursor: pointer;
     height: 10%;
     top: 50%;
-    position: relative;
+    position: absolute;
     
     left: 5%;
+    display:block;
 }
 .screen .forward{
     cursor: pointer;
     height: 10%;
     top: 50%;
-    position: relative;
-    left: 90;
-    left: 86%;
+    position: absolute;
+    left: 91%;
+    display:block;
+   
 }
 .screen .backward:hover,
 .screen .backward:focus{
     cursor: pointer;
     height: 10%;
     top: 50%;
-    position: relative;
+    position: absolute;
     font-weight: bold;
     left: 5%;
+    display:block;
 }
 .screen .forward:hover,
 .screen .forward:hover{
     cursor: pointer;
     height: 10%;
     top: 50%;
-    position: relative;
-    left: 86%;
+    position: absolute;
+    left: 91%;
     font-weight: bold;
+    display:block;
 }

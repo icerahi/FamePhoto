@@ -7,27 +7,38 @@ import '../styles/photodetail.css'
  
 
 const PhotoDetail = () => {
-    const {id}=useParams()
+    let {id}=useParams()
     const [data, setdata] = useState(null)
-
+   
     useEffect(() =>{
         const getData = async()=>{
             await axios.get(`${domain}/photos/${id}/`).then(res => setdata(res.data))
+            .catch(err => id+=1 )
         }
-        getData()
-    },[])
-    const history= useHistory()
 
+        getData()
+    },[id])
+    const history= useHistory()
+ 
     return (
 <div className="screen m-0 p-0">
     <div className="close" onClick={history.goBack}>
     <img src="/images/close.png" alt="" className="img-fluid" />
     </div>
-    <img src="/images/backward.png" alt="backward" className="backward img-fluid" />
-              <div className="photo_details m-0 p-0 ">
+    {console.log(data?.next_id)}
+    { data?.prev_id !==null?(
+                
+                <Link to={`/photo/${data?.prev_id}`}>
+                <img src="/images/backward.png" alt="backward" className="backward img-fluid" />
+                </Link>
+                ):null}
+               
+
+         <div className="photo_details m-0 p-0 ">
  
                 <div className="row  m-0 p-0">
                     <div className="col-md-8 col-sm-8  d-flex align-items-center justify-content-center bg-dark">
+                        
                         <img src={data?.photo} alt="" className="img-fluid " />
                        
                     </div>
@@ -59,7 +70,14 @@ const PhotoDetail = () => {
                 </div>
  
             </div>
-            <img src="/images/forward.png" alt="forward" className="forward float-right img-fluid" />
+            {data?.next_id !==null?(
+                 <Link to={`/photo/${data?.next_id}`}>
+                 <img src="/images/forward.png" alt="forward" className="forward float-right img-fluid" />
+             </Link>
+     ):null}
+
+            {console.log(data?.prev_id)}
+   
 
         </div>
   

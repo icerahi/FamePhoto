@@ -77,7 +77,7 @@ const Profile = () => {
         <hr />
         <div className="tab container ">
             
-        <ul class="nav nav-tabs mb-3" id="ex1" role="tablist">
+        <ul class="nav nav-tabs mb-3 justify-content-center" id="ex1" role="tablist">
         <li class="nav-item" role="presentation">
             <a
             class="nav-link active"

@@ -7,4 +7,5 @@ urlpatterns = [
     path('<username>/all_albums/',views.UserAllAlbumAPIView.as_view(),name='all_albums'), # need to hit when create a new photo
     path('<username>/public/photos/', views.UserPublicPhotoAPIView.as_view(), name='public_photos'),
     path('<username>/private/private/', views.UserPrivatePhotoAPIView.as_view(), name='private_photos'),
+    path('',views.AccountListApiView.as_view(), name='user_list'),
 ]
