@@ -39,8 +39,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return timezone.now() + expire_delta - datetime.timedelta(seconds=200)
 
     def get_token(self,obj):
+        request = self.context.get('request')
         user     = obj 
-        payload  = jwt_payload_handler(user)
+        payload  = jwt_payload_handler(user,request=request)
         token    = jwt_encode_handler(payload)
         return token 
 

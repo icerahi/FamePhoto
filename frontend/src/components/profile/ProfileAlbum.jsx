@@ -1,19 +1,26 @@
-import React from 'react'
+import React ,{useState,useEffect}from 'react'
 import '../../styles/albums.css'
 
-import {Link, Switch} from 'react-router-dom';
-
-
-const ProfileAlbum = ({public_albums,profile_data}) => {
+import {Link, Switch, useParams} from 'react-router-dom';
+import { useStateValue } from '../../state/StateProvider';
+import axios from 'axios'
+import { getheader } from '../../env';
+ 
+ 
+const ProfileAlbum = ({albums}) => {
+    const {username}=useParams()
+    const [{user,profile_data},dispatch]=useStateValue()
+    
+    
 
     return (
         <div className="container"> 
         
             <div className="row">
-                {public_albums !== null?(
+                {albums !== null?(
                     <>
                     {
-                        public_albums.map((data, i)=>(
+                        albums?.map((data, i)=>(
                             <div className="col-md-3">
                                 <Link to={`/album/${data.id}`}>
                             <div className="card   shadow-1-strong m-2">
@@ -37,7 +44,7 @@ const ProfileAlbum = ({public_albums,profile_data}) => {
 
                             </div>
                             <div className="info text-center">
-                             <h4 class="card-title text-dark"> <i className="fa fa-unlock"></i> {data.name}</h4> 
+                             <h4 class="card-title text-dark"> {data.keep_private && <i className="fa fa-lock"></i> } {data.name}</h4> 
                             <small>{data.total_photo} photo</small>
                             </div>
                             </div></Link>
@@ -47,7 +54,7 @@ const ProfileAlbum = ({public_albums,profile_data}) => {
                 ))
                     }
                     </>
-                ): <h1>No albums yet!</h1> }
+                ):null }
             </div>
         
 

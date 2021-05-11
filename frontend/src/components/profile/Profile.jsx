@@ -2,34 +2,72 @@ import React, { useState ,useEffect} from 'react'
 import ProfileAlbum from './ProfileAlbum'
 import Photos from './Photos'
 import './profile.css'
-
-import { useParams } from 'react-router'
+import {useParams,Link} from 'react-router-dom'
 import axios from 'axios'
 import { domain, profile_url } from '../../env'
+import {toast} from 'react-toastify'
+import { useStateValue } from '../../state/StateProvider'
+ 
 
 const Profile = () => {
-
+    const [{user,profile_data,reload},dispatch]=useStateValue()
     const {username} = useParams()
 
-    const [profileData, setprofileData] = useState(null)
-    
-    const [publicPhotos, setpublicPhotos] = useState(null)
-    const [publicAlbums, setPublicAlbum] = useState(null)
+   const [Data, setData] = useState(null)
+    // const [albums, setalbums] = useState(initialState)
+   useEffect(()=>{
+    const getData = async()=>{
+        
+        if(user?.username===username){
+            await axios({
+                method:"GET",
+                url:`http://localhost:8000/api/accounts/${username}/`,
+                
+                headers:{
+                    Authorization:`JWT ${localStorage.getItem('token')}`
+                }
+            })
+            .then(res => {
+                console.log(res.data)
+                setData(res.data)
+                dispatch({type:'profile',value:res.data['profile']})
+                dispatch({type:'albums',value:res.data['albums']})
 
-    useEffect(() =>{
-        const getProfile = async()=>{
-            await axios.get(`${profile_url}/${username}/`) 
-            .then(response => {
-                setprofileData(response.data)
-                axios.get(response.data?.photos?.public).then(res => setpublicPhotos(res.data))
-                axios.get(response.data?.albums?.public).then(res => setPublicAlbum(res.data))
-                })
-           
-            .catch((err) => console.log('something wrong'))
+            })
         }
-        getProfile();
-    },[])
-    console.log(publicPhotos)
+        else{
+            await axios({
+                method:"GET",
+                url:`http://localhost:8000/api/accounts/${username}/`,       
+            })
+            .then(res => {
+                console.log(res.data)
+                setData(res.data)
+                // dispatch({type:'profile_data',value:res.data})
+            })
+
+        }}
+       
+            // toast.success(message, {
+            //     position: "top-right",
+            //     autoClose: 2000,
+            //     hideProgressBar: false,
+            //     closeOnClick: true,
+            //     pauseOnHover: false,
+            //     draggable: false,
+            //     progress: undefined,
+            //     });
+                
+
+             
+   
+    getData();
+
+    
+
+
+},[username]) 
+   
     return (
         
         <main>
@@ -40,35 +78,40 @@ const Profile = () => {
     
                 <div className="profile-image">
     
-                    <img className='img-fluid' height="50%" width="50%" src={profileData?.profile?.profile_pic} alt=""/>
+                    <img className='img-fluid' height="50%" width="50%" src={Data?.profile?.profile_pic} alt=""/>
     
                 </div>
     
                 <div className="profile-user-settings">
     
-                    <h1 className="profile-user-name">{profileData?.username}</h1>
-    
-                    <button className="p_btn profile-edit-btn">Edit Profile</button>
-    
-                    <button className="p_btn profile-settings-btn" aria-label="profile settings"><i className="fas fa-cog" aria-hidden="true"></i></button>
-    
+                    <h1 className="profile-user-name">{Data?.username}</h1>
+                     
+                   {username === user?.username && <Link to={`/${Data?.username}/edit`}><button className="p_btn profile-edit-btn">Edit Profile</button></Link> }
+                 
+
+
+     
                 </div>
     
-                <div className="profile-stats">
+                <div className="profile-stats m-0">
     
                     <ul>
-                        <li><span className="profile-stat-count">{profileData?.total_photo}</span> photos</li>
-                        <li><span className="profile-stat-count">{profileData?.total_album}</span> Albums</li>
+                        <li><span className="profile-stat-count">{Data?.total_photo}</span> photos</li>
+                        <li><span className="profile-stat-count">{Data?.total_album}</span> Albums</li>
                      </ul>
     
                 </div>
     
                 <div className="profile-bio w-50 vh-10">
-    
-                    <p><span className="profile-real-name d-block">{profileData?.profile?.fullname}</span> {profileData?.profile?.bio}</p>
-                    <p><span className="profile-real-name d-block">{profileData?.profile?.location}</span> <span className="d-block"> {profileData?.profile?.birth_date?`Date of Birth : ${profileData?.profile?.birth_date}`:""}</span></p>
+                
+                    <p><span className="profile-real-name d-block">{Data?.profile?.fullname}</span> {Data?.profile?.bio}</p>
+                    <p><span className="profile-real-name d-block">{Data?.profile?.location}</span> 
+                    <span className="d-block"> {Data?.profile?.birth_date?`Date of Birth : ${Data?.profile?.birth_date}`:""}</span>
+                    </p>
+                    <span className="profile-stat-count h4">{Data?.email}</span>
 
                 </div>
+              
       
     
             </div>
@@ -114,12 +157,13 @@ const Profile = () => {
             role="tabpanel"
             aria-labelledby="ex1-tab-1"
         >
+
             
-            
-            <ProfileAlbum public_albums={publicAlbums} profile_data={profileData}/>
+            <ProfileAlbum albums={Data?.albums}/>
+            {/* profile album tab end */}
         </div>
         <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-        <Photos public_photos={publicPhotos} profile_data={profileData}/>
+        {/* <Photos/> */}
         </div>
     
     </div>

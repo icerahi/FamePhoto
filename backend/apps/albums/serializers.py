@@ -58,7 +58,6 @@ class AlbumSerializer(serializers.ModelSerializer):
        return drf_reverse('albums:detail',kwargs={'id':obj.id},request=request)
 
     
-
 class AlbumInlineSerializer(AlbumSerializer):
     recent_photos = serializers.SerializerMethodField(read_only=True)
 
@@ -77,6 +76,5 @@ class AlbumInlineSerializer(AlbumSerializer):
         request = self.context.get('request')
         recent=obj.photo_set.all()[:3]
         return PhotoInlineSerializer(recent,many=True,context=({"request":request})).data
-
 
 

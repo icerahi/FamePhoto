@@ -3,16 +3,37 @@ import '../styles/home.style.css'
 import axios from 'axios'
 import { domain } from '../env'
 import {Link} from 'react-router-dom'
+import { useStateValue } from '../state/StateProvider'
+import {toast} from 'react-toastify'
  
 
 
 const Home = () => {
+    const [{user,message},dispatch] =useStateValue()
     const [Data, setData] = useState(null)
     useEffect(()=>{
         const getData = async()=>{
-            await axios.get(`${domain}/photos/`).then(res => setData(res.data))
+            
+            await axios.get(`${domain}/photos/`).then(res => {
+                setData(res.data)
+                toast.success(message, {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: false,
+                    progress: undefined,
+                    });
+                dispatch({type:'message',value:null})
+
+                 
+            })
         }
         getData();
+
+        
+
 
     },[]) 
     const [showDetails, setshowDetails] = useState(false)

@@ -1,8 +1,7 @@
 import React,{useState,useEffect} from 'react'
-import { useHistory, useParams } from 'react-router'
 import { domain } from '../env'
 import axios from 'axios'
-import {Link} from 'react-router-dom';
+import {Link,useHistory,useParams} from 'react-router-dom';
 import '../styles/photodetail.css'
  
 
@@ -19,10 +18,11 @@ const PhotoDetail = () => {
         getData()
     },[id])
     const history= useHistory()
+    
  
     return (
 <div className="screen m-0 p-0">
-    <div className="close" onClick={history.goBack}>
+    <div className="close" onClick={()=> history.push('/')}>
     <img src="/images/close.png" alt="" className="img-fluid" />
     </div>
     {console.log(data?.next_id)}

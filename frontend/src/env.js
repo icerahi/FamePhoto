@@ -13,13 +13,14 @@ export const profile_url = domain+'/accounts'
 // endpoints
 
 
-const token = window.localStorage.getItem("token");
+const token =  localStorage.getItem("token");
 
 const csrftoken = Cookies.get("csrftoken");
 
 export const getheader = {
   Authorization: `JWT ${token}`,
 };
+
 
 export const postheader = {
   "X-CSRFToken": csrftoken,

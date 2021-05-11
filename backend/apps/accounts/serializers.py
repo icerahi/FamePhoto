@@ -2,9 +2,50 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from apps.accounts.models import Profile
 from rest_framework.reverse import reverse as drf_reverse
-
+from apps.photos.models import Photo 
+from apps.albums.models import Album
 
 User = get_user_model()
+
+#for avoid circuler import error we rewrite our PhotoInlineSerialzer  AlbumInlineSerialzerhere
+class PhotoInlineSerializer(serializers.ModelSerializer):
+    uri         = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model   = Photo
+        fields  =(
+            'uri',
+            'id',
+            'caption',
+            'photo',
+        )
+        read_only_fields= ['user',]
+
+    def get_uri(self,obj):
+        request = self.context.get('request')
+        return drf_reverse('photos:detail',kwargs={'id':obj.id},request=request)
+
+class AlbumInlineSerializer(serializers.ModelSerializer):
+    recent_photos = serializers.SerializerMethodField(read_only=True)
+    total_photo   = serializers.SerializerMethodField(read_only=True)
+    class Meta:
+        model   = Album
+        fields  =(
+            'id',
+            'name',
+            'keep_private',
+            'recent_photos',
+            "total_photo"
+         )
+        
+    def get_total_photo(self,obj):
+        return obj.photo_set.all().count()
+         
+    def get_recent_photos(self,obj):
+        request = self.context.get('request')
+        recent=obj.photo_set.all()[:3]
+        return PhotoInlineSerializer(recent,many=True,context=({"request":request})).data
+####
 
 
 
@@ -60,16 +101,16 @@ class UserProfileSerializer(serializers.ModelSerializer):
             data['private']= drf_reverse('accounts:private_photos',kwargs={'username':obj.username},request=request)
         return data
 
+
     def get_albums(self,obj):
         request = self.context.get('request')
         public = obj.album_set.filter(keep_private=False)
-        data = {
-            'public':drf_reverse('accounts:public_albums',kwargs={'username':obj.username},request=request)
-        }
+        all    = obj.album_set.all()
+       
         if request.user==obj:
-            data['private']= drf_reverse('accounts:private_albums',kwargs={'username':obj.username},request=request)
-            data['all_albums']= drf_reverse('accounts:all_albums',kwargs={'username':obj.username},request=request)
-        return data
+            return AlbumInlineSerializer(all,many=True,context={'request':request}).data
+
+        return AlbumInlineSerializer(public,many=True,context={'request':request}).data
 
     def get_uri(self,obj):
         request = self.context.get('request')

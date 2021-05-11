@@ -34,7 +34,7 @@ class AuthAPIView(APIView):
             user_obj = qs.first()
             if user_obj.check_password(password):
                 user    = user_obj
-                payload = jwt_payload_handler(user)
+                payload = jwt_payload_handler(user,request=self.request)
                 token   = jwt_encode_handler(payload)
                 response= jwt_response_payload_handler(token=token,user=user,request=self.request)
                 return Response(response)
