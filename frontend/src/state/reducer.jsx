@@ -6,6 +6,8 @@ export const initialState = {
     message:null,
     profile:null,
     albums:null,
+    photos:null,
+  
 }
 
 export const reducer=(state,action) =>{
@@ -22,6 +24,10 @@ export const reducer=(state,action) =>{
             return {...state,profile:action.value}
         case 'albums':
             return {...state,albums:action.value}
+        
+        case 'photos':
+            return {...state,photos:action.value}
+        
         
         default:
             return state

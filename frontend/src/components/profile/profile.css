@@ -21,6 +21,13 @@ Flexbox and floats are used as a fallback so that browsers which don't support g
 }
 
  
+.change_profile{
+    z-index: 99999999;
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 10%;
+    cursor: pointer;
+}
  
 
 /* .container {

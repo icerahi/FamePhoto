@@ -17,7 +17,8 @@ import Register from './components/auth/Register'
 import { useStateValue } from './state/StateProvider'
 import 'react-toastify/dist/ReactToastify.css'; 
 import EditProfile from './components/profile/EditProfile'
-
+import axios from 'axios'
+import UpdateContent from './components/UpdateContent'
 toast.configure()
 
 const App = () => {
@@ -28,10 +29,12 @@ const App = () => {
       const token = localStorage.getItem('token')
       const user = jwtDecode(token)
       dispatch({type:'user',value:user})
+
     }
     catch(err){
       dispatch({type:'user',value:null})
     } 
+
     },[])
  
   return (
@@ -61,6 +64,7 @@ const App = () => {
         <Route exact path='/users' component={Users}/>
         <Route exact path='/album/:id' component={AlbumDetail}/>
         <Route exact path='/photo/:id' component={PhotoDetail}/>
+        <Route exact path='/photo/:id/edit' component={UpdateContent}/>
         <Route exact path='/:username' component={Profile}/>
         <Route exact path='/:username/edit' component={EditProfile}/>
       

@@ -94,12 +94,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_photos(self,obj):
         request = self.context.get('request')
-        data = {
-            'public':drf_reverse('accounts:public_photos',kwargs={'username':obj.username},request=request)
-        }
-        if request.user==obj:
-            data['private']= drf_reverse('accounts:private_photos',kwargs={'username':obj.username},request=request)
-        return data
+        public = obj.photo_set.filter(album__keep_private=False)
+        all    = obj.photo_set.all()
+        print(public.count())
+        print(all.count())
+        if request.user == obj:
+            return PhotoInlineSerializer(all,many=True,context={'request':request}).data
+        
+        return PhotoInlineSerializer(public,many=True,context={'request':request}).data
+
 
 
     def get_albums(self,obj):

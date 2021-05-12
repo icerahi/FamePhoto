@@ -17,11 +17,11 @@ const Login = () => {
  
         await axios.post('http://localhost:8000/api/auth/login/',
         {"username":username,"password":password})
+        
         .then(res => {
             dispatch({type:'message',value:"login success!"})
             localStorage.setItem('token',res.data['token'])
-             
-           window.location='/'
+            window.location='/'
              
             
         })

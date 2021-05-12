@@ -5,29 +5,20 @@ import axios from 'axios'
 import { useStateValue } from '../../state/StateProvider';
 
 
-const Photos = () => {
+const Photos = ({photos}) => {
     const {username}=useParams()
-    const [Data, setData] = useState(null)
+   
     const [{user},dispatch]=useStateValue()
 
-    useEffect(() =>{
-        const getData = async()=>{
-            await axios.get(`http://localhost:8000/api/accounts/${username}/public/photos/`) 
-            .then(response => {
-                setData(response.data)
-                })
-            .catch((err) => console.log('something wrong'))
-        }
-        getData();
-    },[])
+     
 
      return (
         <div className="container">
             <div className="flexbin flexbin-margin ">
-            { Data !== null ? (
+            { photos !== null ? (
                <>
                 {
-                Data.map((data,i)=>(
+                photos?.map((data,i)=>(
                     
                     <Link to={`/photo/${data.id}`} className="flexbin flexbin-margin">
                     <div class="image-item" key={i} style={{"display": "block"}}>

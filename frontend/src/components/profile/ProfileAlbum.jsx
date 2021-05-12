@@ -12,7 +12,7 @@ const ProfileAlbum = ({albums}) => {
     const [{user,profile_data},dispatch]=useStateValue()
     
     
-
+    console.log(albums)
     return (
         <div className="container"> 
         

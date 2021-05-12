@@ -30,12 +30,35 @@ const Home = () => {
                  
             })
         }
-        getData();
 
+        const get_album=    async() => {
+            
+            // if user authenticated load his created album
+            await axios({
+                method:"GET",
+                url:`http://localhost:8000/api/accounts/${user?.username}/all_albums/`,
+                headers:{
+                Authorization:`JWT ${localStorage.getItem('token')}`
+                }
+        
+            })
+            .then(res =>{
+               
+                dispatch({type:'albums',value:res.data})
+            })
+            .catch(err => console.log(err.response.data))
+            
+    };
+    getData();
+
+    get_album()
         
 
 
     },[]) 
+
+
+ 
     const [showDetails, setshowDetails] = useState(false)
     
     return (

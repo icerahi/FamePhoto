@@ -3,14 +3,17 @@ import { domain } from '../env'
 import axios from 'axios'
 import {Link,useHistory,useParams} from 'react-router-dom';
 import '../styles/photodetail.css'
- 
+import { useStateValue } from '../state/StateProvider';
+import { toast } from 'react-toastify';
+
 
 const PhotoDetail = () => {
     let {id}=useParams()
     const [data, setdata] = useState(null)
-   
+    const [{user},dispatch]=useStateValue()
     useEffect(() =>{
         const getData = async()=>{
+
             await axios.get(`${domain}/photos/${id}/`).then(res => setdata(res.data))
             .catch(err => id+=1 )
         }
@@ -19,6 +22,20 @@ const PhotoDetail = () => {
     },[id])
     const history= useHistory()
     
+    const Delete=async()=>{           
+            await axios({
+                method:'DELETE',
+                url:`${domain}/photos/${id}/`,
+                headers:{
+                    Authorization:`JWT ${localStorage.getItem('token')}`
+                }
+            })
+            .then(res => {
+                toast.success("Delete successfully")
+                history.goBack()
+            })
+        }
+ 
  
     return (
 <div className="screen m-0 p-0">
@@ -43,22 +60,32 @@ const PhotoDetail = () => {
                        
                     </div>
                     <div className="col-md-4 col-sm-4">
-                    <Link to={`/${data?.user?.username}`}  style={{"display": "block"}}>
+                   
                         <div className="media d-flex">
-                           
-                            <img width="10%" height="10%" className="m-3 img-fluid rounded-circle" src={data?.user?.profile_pic} alt={data?.user?.username}/>
-                            <div className="media-body text-center" >
-                                <strong className="h4 text-dark d-block mt-4">{data?.user?.username}</strong>
-                            </div>
-                           
+                        <Link to={`/${data?.user?.username}`} >
+                            <img width="15%" height="15%" className="m-3 img-fluid rounded-circle" src={data?.user?.profile_pic} alt={data?.user?.username}/>
+                            <strong className="h4 text-dark  mt-4">{data?.user?.username}</strong>
+                            </Link>
+                      
+                          
+
+                            {data?.user?.username === user?.username && <div className="text-center ml-5 mt-3">
+                             <Link to={`/photo/${data?.id}/edit`}><button className="p_btn mb-2 bg-light profile-edit-btn">Edit </button></Link>
+                              <button onClick={() => {if(window.confirm('Are you sure to delete ?')){ Delete()};}} className="p_btn bg-danger profile-edit-btn">Delete</button> 
+
+
+                            </div> }
+
+                             
+                         
                             
                         </div>
-                        </Link>
+                       
                         <hr />
                         <figure>
                         <blockquote className="blockquote m-2 ">
                             <p title="Caption" class="display-5">
-                            {data?.caption}
+                            {data?.caption !== null?data?.caption:<></>}
                             </p>
                         </blockquote>
                         <figcaption className="blockquote-footer h2 text-dark m-2">

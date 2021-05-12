@@ -34,4 +34,9 @@ JWT_AUTH = {
     'JWT_AUTH_HEADER_PREFIX': 'JWT',#Authorization: JWT <token>
     'JWT_AUTH_COOKIE': None,
 
+ 
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': False,
+ 
+ 
 }

@@ -7,14 +7,15 @@ import axios from 'axios'
 import { domain, profile_url } from '../../env'
 import {toast} from 'react-toastify'
 import { useStateValue } from '../../state/StateProvider'
- 
+import Select from 'react-select' 
 
 const Profile = () => {
-    const [{user,profile_data,reload},dispatch]=useStateValue()
+    const [{user,message,profile,albums,reload},dispatch]=useStateValue()
     const {username} = useParams()
 
    const [Data, setData] = useState(null)
-    // const [albums, setalbums] = useState(initialState)
+
+
    useEffect(()=>{
     const getData = async()=>{
         
@@ -31,7 +32,12 @@ const Profile = () => {
                 console.log(res.data)
                 setData(res.data)
                 dispatch({type:'profile',value:res.data['profile']})
-                dispatch({type:'albums',value:res.data['albums']})
+                // dispatch({type:'albums',value:res.data['albums']})
+                // dispatch({type:'photos',value:res.data['photos']})
+                if(message){
+                    toast.success(message)
+                }
+
 
             })
         }
@@ -66,20 +72,32 @@ const Profile = () => {
     
 
 
-},[username]) 
+},[message]) 
+
+
+
+
    
     return (
         
         <main>
     <div classNameName="container">
         <div className="container">
+             <div className="profile">
     
-            <div className="profile">
-    
-                <div className="profile-image">
-    
-                    <img className='img-fluid' height="50%" width="50%" src={Data?.profile?.profile_pic} alt=""/>
-    
+                <div className="profile-image d-flex">
+                    { user && <>
+                <label  for="file-input">
+                    <img title="Upload new " className="img-fluid change_profile" width="5%" height="5%" src="/images/change.png"/>
+                </label>
+                      <input style={{"display": "none"}} id="file-input" type="file" />
+                    </>
+                    }
+             
+                    <img className='img-fluid position-relative' height="50%" width="50%" src={Data?.profile?.profile_pic} alt=""/>
+              
+
+ 
                 </div>
     
                 <div className="profile-user-settings">
@@ -163,7 +181,7 @@ const Profile = () => {
             {/* profile album tab end */}
         </div>
         <div class="tab-pane fade" id="ex1-tabs-2" role="tabpanel" aria-labelledby="ex1-tab-2">
-        {/* <Photos/> */}
+        <Photos photos={Data?.photos}/>
         </div>
     
     </div>
