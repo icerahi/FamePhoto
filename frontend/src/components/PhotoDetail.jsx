@@ -11,13 +11,32 @@ const PhotoDetail = () => {
     let {id}=useParams()
     const [data, setdata] = useState(null)
     const [{user},dispatch]=useStateValue()
+
     useEffect(() =>{
         const getData = async()=>{
+            if(user){
 
-            await axios.get(`${domain}/photos/${id}/`).then(res => setdata(res.data))
+            await axios({
+                    method:'GET',
+                    url:`${domain}/api/photos/${id}/`,
+                    headers:{
+                        Authorization:`JWT ${localStorage.getItem('token')}`
+                    }
+                })
+            .then(res => setdata(res.data))
             .catch(err => id+=1 )
+            }
+            else{
+                await axios({
+                    method:'GET',
+                    url:`${domain}/api/photos/${id}/`,
+           
+                })
+            .then(res => setdata(res.data))
+            .catch(err => id+=1 )
+            }
         }
-
+ 
         getData()
     },[id])
     const history= useHistory()
@@ -25,7 +44,7 @@ const PhotoDetail = () => {
     const Delete=async()=>{           
             await axios({
                 method:'DELETE',
-                url:`${domain}/photos/${id}/`,
+                url:`${domain}/api/photos/${id}/`,
                 headers:{
                     Authorization:`JWT ${localStorage.getItem('token')}`
                 }
@@ -40,13 +59,13 @@ const PhotoDetail = () => {
     return (
 <div className="screen m-0 p-0">
     <div className="close" onClick={()=> history.push('/')}>
-    <img src="/images/close.png" alt="" className="img-fluid" />
+    <img src={require("../images/close.png").default} alt="" className="img-fluid" />
     </div>
     {console.log(data?.next_id)}
     { data?.prev_id !==null?(
                 
                 <Link to={`/photo/${data?.prev_id}`}>
-                <img src="/images/backward.png" alt="backward" className="backward img-fluid" />
+                <img src={require("../images/backward.png").default} alt="backward" className="backward img-fluid" />
                 </Link>
                 ):null}
                
@@ -89,7 +108,9 @@ const PhotoDetail = () => {
                             </p>
                         </blockquote>
                         <figcaption className="blockquote-footer h2 text-dark m-2">
-                           <Link to={`/album/${data?.album?.id}`}> Album_ <cite class="text-dark h2" title="Album Name">{data?.album?.name}</cite></Link>
+                           <Link to={`/album/${data?.album?.id}`}> Album_ <cite class="text-dark h2" title="Album Name">
+                               {data?.album?.name}</cite>
+                               {data?.album?.keep_private && <span className="bg-danger h5 m-2">(Private)</span> }</Link>
                         </figcaption>
                         </figure>
                         
@@ -99,7 +120,7 @@ const PhotoDetail = () => {
             </div>
             {data?.next_id !==null?(
                  <Link to={`/photo/${data?.next_id}`}>
-                 <img src="/images/forward.png" alt="forward" className="forward float-right img-fluid" />
+                 <img src={require("../images/forward.png").default} alt="forward" className="forward float-right img-fluid" />
              </Link>
      ):null}
 

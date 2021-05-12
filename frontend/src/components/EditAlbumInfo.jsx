@@ -2,6 +2,7 @@ import React ,{useState,useEffect}from 'react'
 import { useParams,useHistory } from 'react-router-dom'
 import axios from 'axios'
 import { useStateValue } from '../state/StateProvider'
+import { domain } from '../env'
 
 const EditAlbumInfo = () => {
     const {id} = useParams()
@@ -18,7 +19,7 @@ const EditAlbumInfo = () => {
         const get_data = async() => {
             await axios({
                 method:'GET',
-                url:`http://localhost:8000/api/albums/${id}/`,
+                url:`${domain}/api/albums/${id}/`,
                 headers:{
                     Authorization:`JWT ${localStorage.getItem('token')}`
                 }

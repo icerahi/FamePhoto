@@ -3,6 +3,7 @@ import {Link,useHistory} from 'react-router-dom'
 import { useStateValue } from '../../state/StateProvider'
 import axios from 'axios'
 import '../../styles/profile_edit_form.css'
+import { domain } from '../../env'
  
 
 const EditProfile = () => {
@@ -29,7 +30,7 @@ const EditProfile = () => {
     const update= async() => {
         await axios({
             method:"PUT",
-            url:`http://localhost:8000/api/accounts/${user.username}/`,
+            url:`${domain}/api/accounts/${user.username}/`,
             data:{
                 "username":username,
                 "email":email,

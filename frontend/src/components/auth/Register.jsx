@@ -4,8 +4,10 @@ import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import { useStateValue } from '../../state/StateProvider'
+import { domain } from '../../env'
  
 toast.configure()
+
 const Register = () => {
     const [error, seterror] = useState({})
     const [username, setusername] = useState(null)
@@ -16,13 +18,15 @@ const Register = () => {
     const [{},dispatch]=useStateValue()
 
     const register =async()=>{
-        await axios.post('http://localhost:8000/api/auth/register/',
+        await axios.post(`${domain}/api/auth/register/`,
         {"username":username,"email":email,"password":password,"password2":password2}
         )
         .then(res => {
             localStorage.setItem('token',res.data['token'])
             dispatch({type:'message',value:'Registration successful,Please complete your profile!!'})
-            history.push(`/${res.data.username}`)})
+            window.location=`/${res.data.username}`
+             
+        })
         .catch(err => {
             seterror(err.response.data)
              

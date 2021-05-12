@@ -27,7 +27,7 @@ const ProfileAlbum = ({albums}) => {
                             <div className="thumbs bg-dark">
                            { data?.recent_photos?.length===0?(
                                     <>
-                                    <img width="50%" className=" img-fluid" src='/images/empty.png' alt="Card image cap"/>
+                                    <img width="50%" className=" img-fluid" src={require('../../images/empty.png').default} alt="Card image cap"/>
                                         <div className="musk text-dark"> <h1>Empty</h1></div>
                                         </>
                            ):(<>

@@ -14,29 +14,26 @@ const Home = () => {
     useEffect(()=>{
         const getData = async()=>{
             
-            await axios.get(`${domain}/photos/`).then(res => {
+            await axios.get(`${domain}/api/photos/`).then(res => {
                 setData(res.data)
-                toast.success(message, {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: false,
-                    progress: undefined,
-                    });
-                dispatch({type:'message',value:null})
+                if(message){
+                    toast.success(message, {autoClose: 2000,});
+                    dispatch({type:'message',value:null})
+
+                }
+            
+              
 
                  
             })
         }
 
-        const get_album=    async() => {
+        const get_album=  async() => {
             
             // if user authenticated load his created album
             await axios({
                 method:"GET",
-                url:`http://localhost:8000/api/accounts/${user?.username}/all_albums/`,
+                url:`${domain}/api/accounts/${user?.username}/all_albums/`,
                 headers:{
                 Authorization:`JWT ${localStorage.getItem('token')}`
                 }
@@ -55,7 +52,7 @@ const Home = () => {
         
 
 
-    },[]) 
+    },[user]) 
 
 
  

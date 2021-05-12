@@ -1,12 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import {Link} from 'react-router-dom'
+import { domain } from '../env';
 const Album = () => {
     const [Data, setData] = useState(null)
 
     useEffect(()=>{
         const get_data = async()=>{
-            await axios.get('http://localhost:8000/api/albums/').then(res => setData(res.data))
+            await axios.get(`${domain}/api/albums/`).then(res => setData(res.data))
         }
         get_data();
     },[])
@@ -25,7 +26,7 @@ const Album = () => {
                             <div className="thumbs bg-dark">
                            { data?.recent_photos?.length===0?(
                                     <>
-                                    <img width="50%" className=" img-fluid" src='/images/empty.png' alt="Card image cap"/>
+                                    <img width="50%" className=" img-fluid" src={require('../images/empty.png').default} alt="Card image cap"/>
                                         <div className="musk text-dark"> <h1>Empty</h1></div>
                                         </>
                            ):(<>

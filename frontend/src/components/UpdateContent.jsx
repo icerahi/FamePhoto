@@ -36,7 +36,7 @@ const UpdateContent = () => {
      useEffect(() =>{
          const getData = async()=>{
              
-             await axios.get(`${domain}/photos/${id}/`).then(res =>{
+             await axios.get(`${domain}/api/photos/${id}/`).then(res =>{
                 setdata(res.data)
                 setImage(res.data.photo)
                 setCaption(res.data.caption)

@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import {Link,useHistory} from 'react-router-dom'
 import axios from 'axios'
 import { useStateValue } from '../state/StateProvider'
+import { domain } from '../env'
 
 const CreateAlbum = () => {
     const [name, setname] = useState(null)
@@ -16,7 +17,7 @@ const CreateAlbum = () => {
         console.log(keep_private)
         await axios({
             method:"POST",
-            url:"http://localhost:8000/api/albums/",
+            url:`${domain}/api/albums/`,
             data:{
                 "name":name,
                 "keep_private":keep_private
@@ -27,10 +28,9 @@ const CreateAlbum = () => {
         })
         
         .then(res => {
-            
-            
-          console.log(res.data)
+          dispatch({type:'message',value:'Album created successfully!!'})
           history.goBack()
+
              
             
         })

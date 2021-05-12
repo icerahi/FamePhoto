@@ -4,6 +4,7 @@ import {Link, useHistory} from 'react-router-dom'
 import axios from 'axios'
 import { useStateValue } from '../../state/StateProvider'
 import { toast } from 'react-toastify'
+import { domain } from '../../env'
  
 
 const Login = () => {
@@ -14,14 +15,14 @@ const Login = () => {
     const [{message},dispatch]=useStateValue()
 
     const login = async ()=>{
- 
-        await axios.post('http://localhost:8000/api/auth/login/',
+       
+        await axios.post(`${domain}/api/auth/login/`,
         {"username":username,"password":password})
         
         .then(res => {
             dispatch({type:'message',value:"login success!"})
             localStorage.setItem('token',res.data['token'])
-            window.location='/'
+            history.push('/')
              
             
         })

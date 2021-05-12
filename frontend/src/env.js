@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
-export const domain = "http://127.0.0.1:8000/api";
-export const profile_url = domain+'/accounts'
+export const domain = "http://127.0.0.1:8000";
+// export const profile_url = domain+'/accounts'
 // export const domain = "";
 
 /*

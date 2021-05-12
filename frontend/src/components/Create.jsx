@@ -8,15 +8,6 @@ const Create = () => {
     const [showModal, setshowModal] = useState(false)
     const[{user},dispatch] = useStateValue()
 
-  
-   
-
-     
-
- 
-
- 
-
     return (
          <div>
              {user &&  <button className="addNew" onClick={()=> setshowModal(true)} > <i className="fa fa-plus"></i> </button>}
@@ -26,7 +17,7 @@ const Create = () => {
 
             <div onClick={event => event.target.className === 'create' ?setshowModal(false):null } className="show_create_modal">
                 
-            { showModal?<CreateModal/>:null}
+            { showModal?<CreateModal show={setshowModal}/>:null}
             </div>
          </div>
         

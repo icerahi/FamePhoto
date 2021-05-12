@@ -5,16 +5,38 @@ import {Link } from 'react-router-dom'
 import { useStateValue } from '../state/StateProvider'
 import { domain } from '../env'
 import { toast } from 'react-toastify'
+
 const AlbumDetail = () => {
     const {id}=useParams()
     const [Data, setData] = useState(null)
     const [{user},dispatch] =useStateValue()
     useEffect(()=>{
-        const get_data=async () =>{
-            await axios.get('http://localhost:8000/api/albums/'+id+'/').then(res => setData(res.data))
+        const getData = async()=>{
+            if(user){
+
+            await axios({
+                    method:'GET',
+                    url:`${domain}/api/albums/${id}/`,
+                    headers:{
+                        Authorization:`JWT ${localStorage.getItem('token')}`
+                    }
+                })
+            .then(res => setData(res.data))
+          
+            }
+            else{
+                await axios({
+                    method:'GET',
+                    url:`${domain}/api/albums/${id}/`,
+           
+                })
+            .then(res => setData(res.data))
+         
+            }
         }
-        get_data();
-    },[] )
+ 
+        getData();
+    },[id] )
 
 
     const history= useHistory()
@@ -84,7 +106,10 @@ const AlbumDetail = () => {
                       <figure>
              
                         <figcaption className="blockquote-footer display-5  h2 text-dark m-2">
-                           <Link to={`/album/${Data?.id}`}> Album_ <p class="text-dark h2 display-5" title="Album Name">{Data?.name}</p></Link>
+                           <Link to={`/album/${Data?.id}`}> Album_ <p class="text-dark h2 display-5" title="Album Name">{Data?.name}</p>
+                           {Data?.keep_private && <span className="bg-danger h5 m-2">(Private)</span> } 
+
+                            </Link>
                         </figcaption>
                         </figure>
 

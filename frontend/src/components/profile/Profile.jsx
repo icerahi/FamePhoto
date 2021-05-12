@@ -29,7 +29,7 @@ const Profile = () => {
         if(user?.username===username){
             await axios({
                 method:"GET",
-                url:`http://localhost:8000/api/accounts/${username}/`,
+                url:`${domain}/api/accounts/${username}/`,
                 
                 headers:{
                     Authorization:`JWT ${localStorage.getItem('token')}`
@@ -42,7 +42,8 @@ const Profile = () => {
                 // dispatch({type:'albums',value:res.data['albums']})
                 // dispatch({type:'photos',value:res.data['photos']})
                 if(message){
-                    toast.success(message)
+                    toast.success(message,{autoClose:2000})
+                    dispatch({type:'message',value:null})
                 }
 
 
@@ -51,7 +52,7 @@ const Profile = () => {
         else{
             await axios({
                 method:"GET",
-                url:`http://localhost:8000/api/accounts/${username}/`,       
+                url:`${domain}/api/accounts/${username}/`,       
             })
             .then(res => {
                 console.log(res.data)
@@ -114,7 +115,7 @@ const Change_pic=(e)=>{
                 <div className="profile-image d-flex">
                     { user && <>
                 <label  for="file-input">
-                    <img title="Upload new " className="img-fluid change_profile" width="5%" height="5%" src="/images/change.png"/>
+                    <img title="Upload new " className="img-fluid change_profile" width="5%" height="5%" src={require("../../images/change.png").default}/>
                 </label>
                       <input onChange={Change_pic} style={{"display": "none"}} id="file-input" type="file" />
                     </>

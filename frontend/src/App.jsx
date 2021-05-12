@@ -21,6 +21,7 @@ import axios from 'axios'
 import UpdateContent from './components/UpdateContent'
 import CreateAlbum from './components/CreateAlbum'
 import EditAlbumInfo from './components/EditAlbumInfo'
+
 toast.configure()
 
 const App = () => {
@@ -36,8 +37,9 @@ const App = () => {
     catch(err){
       dispatch({type:'user',value:null})
     } 
+     
 
-    },[])
+    },[message])
  
   return (
      <BrowserRouter>

@@ -1,11 +1,13 @@
 import React ,{useState,useEffect}from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
+import { domain } from '../env'
+
 const Users = () => {
     const [data, setdata] = useState(null)
     useEffect(() =>{
         const get_data = async()=>{
-            await axios.get('http://localhost:8000/api/accounts/').then(res => setdata(res.data))
+            await axios.get(`${domain}/api/accounts/`).then(res => setdata(res.data))
         }
         get_data()
     },[])   

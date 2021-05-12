@@ -4,8 +4,10 @@ import '../styles/modal.style.css'
 import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 import Select from 'react-select'
+import { domain } from '../env';
+import { toast } from 'react-toastify';
 
-function CreateModal() {
+function CreateModal({show}) {
     const[caption,setCaption]=useState("")
     const[album,setAlbum]=useState("")
     const[albumlabel,setAlbumlabel]=useState("Select Album")
@@ -48,14 +50,17 @@ function CreateModal() {
     
             await axios({
                 method:'POST',
-                url:'http://localhost:8000/api/photos/',
+                url:`${domain}/api/photos/`,
                 data:form,
                 headers:{
                     Authorization:`JWT ${localStorage.getItem('token')}`
                 }
             })
             .then(res =>{
-                window.location="/"
+                dispatch({type:'message',value:"Created successfully!!"})
+                history.push('/')
+                show(false)
+
             })
             .catch(err => console.log(err?.response?.data))
         }
@@ -72,10 +77,16 @@ function CreateModal() {
         
     }
    
-
+    const EnterPressSubmit =(event) =>{
+        if(event.key === "Enter"){
+            Post()
+        }
+    }
     return (
         <div className="create">
             <div className="create_form row">
+            <h2 class="inline-block text-center"> Create New </h2>  
+
                  <div className="col-md-6" id="left_side">
         
                  <div className="section2">
@@ -102,11 +113,8 @@ function CreateModal() {
 
                  {/* {<p className="bg-danger text-center rounded-pill display-7 text-dark">error?.non_field_errors</p>}  */}
 
-                <div class="form-group  "> 
-                   
-                    <input onChange={e => setCaption(e.target.value)} placeholder="Add your caption" type="text" className="new_pin_input" id="pin_title" />
-           
-                <div class="form-group m-2"> 
+       
+                <div class="border-0 border"> 
                 <Select
                             name="album"
                             className=" my-5"
@@ -116,9 +124,13 @@ function CreateModal() {
                             options={useralbums}
                             isSearchable="true"
                             placeholder={albumlabel}
-                              required/> </div>
+                              required/>
+                               </div>
                 
-                
+                               <div class="form-group  "> 
+                   
+                   <input onKeyPress={EnterPressSubmit} onChange={e => setCaption(e.target.value)} placeholder="Add your caption" type="text" className="new_pin_input" id="pin_title" />
+          
                 
                           
                 <div class="form-group p- mt-5">  
