@@ -1,16 +1,38 @@
 import React,{useState,useEffect} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams,useHistory } from 'react-router-dom'
 import axios from 'axios'
 import {Link } from 'react-router-dom'
+import { useStateValue } from '../state/StateProvider'
+import { domain } from '../env'
+import { toast } from 'react-toastify'
 const AlbumDetail = () => {
     const {id}=useParams()
     const [Data, setData] = useState(null)
+    const [{user},dispatch] =useStateValue()
     useEffect(()=>{
         const get_data=async () =>{
             await axios.get('http://localhost:8000/api/albums/'+id+'/').then(res => setData(res.data))
         }
         get_data();
     },[] )
+
+
+    const history= useHistory()
+    
+    const Delete=async()=>{           
+            await axios({
+                method:'DELETE',
+                url:`${domain}/album/${id}/`,
+                headers:{
+                    Authorization:`JWT ${localStorage.getItem('token')}`
+                }
+            })
+            .then(res => {
+                toast.success("Delete successfully")
+                history.goBack()
+            })
+        }
+ 
 
     return (
         <div class="container">
@@ -66,6 +88,11 @@ const AlbumDetail = () => {
                         </figcaption>
                         </figure>
 
+                        {Data?.user?.username === user?.username && <div className="text-center ml-5 mt-3">
+                             <Link to={`/album/${Data?.id}/edit`}><button className="p_btn mb-2 bg-light profile-edit-btn">Edit </button></Link>
+                              <button onClick={() => {if(window.confirm('Are you sure to delete ?')){ Delete()};}} className="p_btn bg-danger profile-edit-btn">Delete</button> 
+                            </div> }
+
                         <figcaption className="blockquote-footer display-5  h2 text-dark m-2">
                            {Data?.total_photo} photos
                         </figcaption>
@@ -79,6 +106,9 @@ const AlbumDetail = () => {
                             <div className="media-body text-center" >
                                 <strong className="h4 text-dark d-block mt-4">{Data?.user?.username}</strong>
                             </div>
+
+
+              
                            
                             
                         </div>

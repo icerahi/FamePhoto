@@ -19,6 +19,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import EditProfile from './components/profile/EditProfile'
 import axios from 'axios'
 import UpdateContent from './components/UpdateContent'
+import CreateAlbum from './components/CreateAlbum'
+import EditAlbumInfo from './components/EditAlbumInfo'
 toast.configure()
 
 const App = () => {
@@ -61,10 +63,12 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={Home}/>
         <Route exact path='/album' component={Album}/>
+        <Route exact path='/album/create' component={CreateAlbum}/>
         <Route exact path='/users' component={Users}/>
         <Route exact path='/album/:id' component={AlbumDetail}/>
         <Route exact path='/photo/:id' component={PhotoDetail}/>
         <Route exact path='/photo/:id/edit' component={UpdateContent}/>
+        <Route exact path='/album/:id/edit' component={EditAlbumInfo}/>
         <Route exact path='/:username' component={Profile}/>
         <Route exact path='/:username/edit' component={EditProfile}/>
       

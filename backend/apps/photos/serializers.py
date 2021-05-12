@@ -28,14 +28,16 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     def get_next_id(self,obj):
         _next = next_in_order(obj)
-        if _next is not None:
+        
+        if _next is not None and _next.album.keep_private !=True:
             return  _next.id 
-         
+        return None
+
     def get_prev_id(self,obj):
         _prev = prev_in_order(obj)
-        if _prev is not None:
+        if _prev is not None and _prev.album.keep_private !=True:
             return _prev.id
-         
+        return None
  
     def to_representation(self,instance):
         request = self.context.get('request')

@@ -9,12 +9,19 @@ import {toast} from 'react-toastify'
 import { useStateValue } from '../../state/StateProvider'
 import Select from 'react-select' 
 
+import Cookies from "js-cookie";
+
+const csrfCookie = Cookies.get("csrftoken");
+
+ 
+
 const Profile = () => {
+    
     const [{user,message,profile,albums,reload},dispatch]=useStateValue()
     const {username} = useParams()
 
    const [Data, setData] = useState(null)
-
+    const [profile_pic, setprofile_pic] = useState(null)
 
    useEffect(()=>{
     const getData = async()=>{
@@ -75,9 +82,28 @@ const Profile = () => {
 },[message]) 
 
 
+ 
 
+const Change_pic=(e)=>{
+    const file=e.target.files[0]
+    
+    
+    // if(file){
+    //     const form =new FormData()
+    //     form.append('file',file)
+    //     axios.put('http://127.0.0.1:8000/api/accounts/upload/'+file.name,
+    //     form,
+    //     {
+    //         headers: {
+    //              'X-CSRFTOKEN': csrfCookie,
+    //              Authorization:`JWT ${localStorage.getItem('token')}`
+    //          },
+    //     },
+    // ).then(res => console.log(res.data))
 
-   
+    // }
+
+}
     return (
         
         <main>
@@ -90,7 +116,7 @@ const Profile = () => {
                 <label  for="file-input">
                     <img title="Upload new " className="img-fluid change_profile" width="5%" height="5%" src="/images/change.png"/>
                 </label>
-                      <input style={{"display": "none"}} id="file-input" type="file" />
+                      <input onChange={Change_pic} style={{"display": "none"}} id="file-input" type="file" />
                     </>
                     }
              
@@ -137,7 +163,7 @@ const Profile = () => {
     </div>
         <hr />
         <div className="tab container ">
-            
+             {user &&  <Link to="/album/create"><span className="h3 ">Create Album <i className="fa fa-plus"></i> </span></Link>}
         <ul class="nav nav-tabs mb-3 justify-content-center" id="ex1" role="tablist">
         <li class="nav-item" role="presentation">
             <a
@@ -160,9 +186,10 @@ const Profile = () => {
             role="tab"
             aria-controls="ex1-tabs-2"
             aria-selected="false"
-            >Photos</a
-            >
+            >Photos</a>
         </li>
+
+        
         
         </ul>
 
