@@ -1,10 +1,10 @@
 import os
 from pathlib import Path
-import sys 
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
- 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -14,7 +14,7 @@ SECRET_KEY = 'djangsdkfnsdkrahio-inslskdfpaskdjfecure-c^@ka&42+0c53gh&a08ed&#p&7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -26,10 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     #3rd_party
     'rest_framework',
-  
+
     'corsheaders',
 
     #local
@@ -37,10 +37,10 @@ INSTALLED_APPS = [
     'apps.albums',
     'apps.accounts',
     'apps.authentication',
-  
+
 ]
 
- 
+
 
 MIDDLEWARE = [
     #3rd_patry
@@ -135,13 +135,17 @@ MEDIA_ROOT = BASE_DIR / '../frontend/media'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST= (
-    'http://localhost:3000',
-)
-CORS_ALLOWED_ORIGINS=[
-    'http://localhost:3000',
-]
-CORS_URLS_REGEX = r'^/api.*'
+
+# CORS_ORIGIN_WHITELIST= (
+#     "*",
+#     # 'http://localhost:3000',
+# )
+# CORS_ALLOWED_ORIGINS=[
+#     "*",
+#     # 'http://localhost:3000',
+# ]
+# CORS_URLS_REGEX = r'^/api.*'
 
 from .rest_config import *
