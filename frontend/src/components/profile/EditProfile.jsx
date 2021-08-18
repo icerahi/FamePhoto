@@ -57,7 +57,7 @@ const EditProfile = () => {
     return (
        
         <div class="create" onClick={closeUpdate}>
-        <div class="profile_edit_form row justify-content-center">
+        <div class="profile_edit_form overflow-scroll row justify-content-center">
             <div class="col-md-10 bg-white m-0 p-0">
                 <div class="row justify-content-center px-3 mb-3">
 

@@ -10,7 +10,8 @@ const CreateAlbum = () => {
 
     const history = useHistory()
     const [error,setError]=useState(null)
-    const [{message},dispatch]=useStateValue()
+    const [{message,user},dispatch]=useStateValue()
+    
     
     const create = async ()=>{
     
@@ -29,7 +30,7 @@ const CreateAlbum = () => {
         
         .then(res => {
           dispatch({type:'message',value:'Album created successfully!!'})
-          history.goBack()
+          window.location.href=`/${user?.username}`
 
              
             

@@ -8,7 +8,7 @@ import { useStateValue } from '../../state/StateProvider';
 const Photos = ({photos}) => {
     const {username}=useParams()
    
-    const [{user},dispatch]=useStateValue()
+   
 
      
 
