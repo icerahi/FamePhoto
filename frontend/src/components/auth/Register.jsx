@@ -24,7 +24,7 @@ const Register = () => {
         .then(res => {
             localStorage.setItem('token',res.data['token'])
             dispatch({type:'message',value:'Registration successful,Please complete your profile!!'})
-            window.location.href=`/${res.data.username}`
+            window.location.href=`/`;
              
         })
         .catch(err => {

@@ -30,7 +30,7 @@ const CreateAlbum = () => {
         
         .then(res => {
           dispatch({type:'message',value:'Album created successfully!!'})
-          window.location.href=`/${user?.username}`
+          window.location.href=`/`
 
              
             
