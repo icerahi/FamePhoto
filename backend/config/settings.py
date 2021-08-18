@@ -79,23 +79,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'irizshop_famedb',
-#         'USER': 'irizshop_rahi',
-#         'PASSWORD': 'RahiNusu420',
-#         'HOST': 'localhost',
-#         'PORT': '',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'irizshop_famedb',
+        'USER': 'irizshop_rahi',
+        'PASSWORD': 'RahiNusu1020',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -136,16 +136,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL='/media/'
-# local 
 STATICFILES_DIRS=[BASE_DIR / '../frontend/build/static',]
-STATIC_ROOT = BASE_DIR / '../frontend/build/static-root'
 
-
-MEDIA_ROOT = BASE_DIR / '../frontend/media'
+# local 
+# STATIC_ROOT = BASE_DIR / '../frontend/build/static-root'
+# MEDIA_ROOT = BASE_DIR / '../frontend/media'
 
 # production 
-# STATIC_ROOT = '/home/username/test.mydomain.com/static'
-# MEDIA_ROOT = '/home/username/test.mydomain.com/static'
+STATIC_ROOT = '/home/irizshop/api.irizshop.com/static'
+MEDIA_ROOT = '/home/irizshop/api.irizshop.com/media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
