@@ -1,13 +1,14 @@
 # To Startup Application
+Live: https://irizshop.com
 
 # To start
 ```
-git clone https://github.com/icerahi/InNeed_Cloud.git
+git clone https://github.com/icerahi/FamePhoto.git
 
-cd InNeed_Cloud
+cd FamePhoto
+cd backend
 virtualenv -p python3 venv
 source venv/bin/activate
-cd backend
 pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
