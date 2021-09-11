@@ -34,4 +34,4 @@ Run Application
 python manage.py runserver
 ```
 
-;/ Kysa laga?
+;/ Kysa laga? ;/
