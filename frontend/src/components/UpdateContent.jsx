@@ -12,6 +12,7 @@ const UpdateContent = () => {
     const[album,setAlbum]=useState(null)
     const[albumlabel,setAlbumlabel]=useState("Select Album")
     const[photo,setPhoto]=useState(null)
+  
 
     const[{user,albums},dispatch]=useStateValue()
     

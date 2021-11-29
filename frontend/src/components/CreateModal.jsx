@@ -6,12 +6,14 @@ import {useHistory} from 'react-router-dom'
 import Select from 'react-select'
 import { domain } from '../env';
 import { toast } from 'react-toastify';
+import Spinner from './Spinner'
 
 function CreateModal({show}) {
     const[caption,setCaption]=useState("")
     const[album,setAlbum]=useState("")
     const[albumlabel,setAlbumlabel]=useState("Select Album")
     const[photo,setPhoto]=useState("")
+    const [isLoading,setIsLoading] = useState(false)
 
     const[{user,albums},dispatch]=useStateValue()
     
@@ -47,7 +49,7 @@ function CreateModal({show}) {
             form.append('caption',caption)
             form.append('album',parseInt(album))
             form.append('photo',photo)
-    
+            setIsLoading(true)
             await axios({
                 method:'POST',
                 url:`${domain}/api/photos/`,
@@ -63,6 +65,7 @@ function CreateModal({show}) {
 
             })
             .catch(err => console.log(err?.response?.data))
+            .finally(()=> setIsLoading(false) )
         }
         else{
             seterror("Photo and album selection is mendatory!")
@@ -134,7 +137,8 @@ function CreateModal({show}) {
                 
                           
                 <div class="form-group p- mt-5">  
-                        <button  onClick={Post} className="btn btn-lg py-4 btn-success form-control">Save</button> 
+                        <button  onClick={Post} className="btn btn-lg py-4 btn-success form-control">
+                            {isLoading? <Spinner/>:'Upload'}</button> 
                     </div>
               
 
