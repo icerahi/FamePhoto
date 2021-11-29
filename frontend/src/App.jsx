@@ -21,6 +21,8 @@ import axios from 'axios'
 import UpdateContent from './components/UpdateContent'
 import CreateAlbum from './components/CreateAlbum'
 import EditAlbumInfo from './components/EditAlbumInfo'
+import Footer from './components/Footer'
+import NotFound from './components/NotFound'
 
 toast.configure()
 
@@ -58,6 +60,7 @@ const App = () => {
          <Route exact path='/album/:id' component={AlbumDetail}/>
          <Route exact path='/photo/:id' component={PhotoDetail}/>
          <Route exact path='/:username' component={withRouter(Profile)}/>
+       
 
        </Switch>
      }
@@ -73,11 +76,11 @@ const App = () => {
         <Route exact path='/album/:id/edit' component={EditAlbumInfo}/>
         <Route exact path='/:username' component={Profile}/>
         <Route exact path='/:username/edit' component={EditProfile}/>
-      
+        <Route  path='*' component={NotFound}/>
     </Switch>
      }
  
- 
+     <Footer/>
        
 
     </BrowserRouter>

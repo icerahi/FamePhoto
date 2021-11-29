@@ -5,7 +5,7 @@ import axios from 'axios'
 import {toast} from 'react-toastify'
 import { useStateValue } from '../../state/StateProvider'
 import { domain } from '../../env'
- 
+import Spinner from '../Spinner'
 toast.configure()
 
 const Register = () => {
@@ -16,8 +16,10 @@ const Register = () => {
     const [password2, setpassword2] = useState(null)
     const history = useHistory()
     const [{},dispatch]=useStateValue()
+    const [isLoading,SetIsLoading] = useState(false)
 
     const register =async()=>{
+        SetIsLoading(true)
         await axios.post(`${domain}/api/auth/register/`,
         {"username":username,"email":email,"password":password,"password2":password2}
         )
@@ -30,6 +32,9 @@ const Register = () => {
         .catch(err => {
             seterror(err.response.data)
              
+        })
+        .finally(()=>{
+            SetIsLoading(false)
         })
     }
 
@@ -57,7 +62,8 @@ const Register = () => {
                         <div class="form-group mt-2">   <input onChange={e => setpassword2(e.target.value)} onKeyPress={(event)=>EnterPressSubmit(event)} type="password" placeholder="Confirm Password" required/> </div>
                         
                         <div class="form-group p- mt-5">  
-                                <button  onClick={register} className="btn btn-lg py-4 btn-success form-control">Register</button> 
+                                <button  onClick={register} className="btn btn-lg py-4 btn-success form-control">
+                                    {isLoading? <Spinner/>:'Register' }</button> 
                             </div>
                       
                     </div>

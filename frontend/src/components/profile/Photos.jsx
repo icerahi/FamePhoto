@@ -10,8 +10,6 @@ const Photos = ({photos}) => {
    
    
 
-     
-
      return (
         <div className="container">
             <div className="flexbin flexbin-margin ">

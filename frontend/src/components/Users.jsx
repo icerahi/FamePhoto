@@ -2,7 +2,7 @@ import React ,{useState,useEffect}from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
 import { domain } from '../env'
-
+import Spinner from './Spinner'
 const Users = () => {
     const [data, setdata] = useState(null)
     useEffect(() =>{
@@ -11,6 +11,10 @@ const Users = () => {
         }
         get_data()
     },[])   
+
+    if(!data){
+        return <Spinner/>
+    }
     return (
         <div className="container mt-5">
             <div className="row justify-content-center">

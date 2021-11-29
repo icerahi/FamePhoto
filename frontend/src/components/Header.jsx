@@ -26,7 +26,7 @@ const Header = () => {
           <NavLink title="Login" activeStyle={{'color':'white'}} className="nav-item  m-3 " to="/login"><img src={require('../images/user.png').default} height="25" width="25"/></NavLink>
         </>)}
         {user &&( <>
-          <NavLink title="Profile" activeStyle={{'color':'white'}} className="nav-item  m-3 " to={`/${user?.username}`}><img className="rounded-circle" src={user?.profile_pic} height="25" width="25"/></NavLink>
+          <NavLink className="displayName" title="Profile" activeStyle={{'color':'white'}} className="nav-item  m-3 " to={`/${user?.username}`}><img className="rounded-circle" src={user?.profile_pic} height="25" width="25"/> <span className="fw-bolder fs-4">{user?.username}</span> </NavLink>
         </>)}
       </div>
 

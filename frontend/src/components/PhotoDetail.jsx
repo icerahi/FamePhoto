@@ -5,7 +5,7 @@ import {Link,useHistory,useParams} from 'react-router-dom';
 import '../styles/photodetail.css'
 import { useStateValue } from '../state/StateProvider';
 import { toast } from 'react-toastify';
-
+import Spinner from './Spinner'
 
 const PhotoDetail = () => {
     let {id}=useParams()
@@ -55,7 +55,9 @@ const PhotoDetail = () => {
             })
         }
  
- 
+    if(!data){
+        return <Spinner/>
+    }
     return (
 <div className="screen m-0 p-0">
     <div className="close" onClick={()=> history.push('/')}>

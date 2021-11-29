@@ -5,7 +5,7 @@ import { domain } from '../env'
 import {Link} from 'react-router-dom'
 import { useStateValue } from '../state/StateProvider'
 import {toast} from 'react-toastify'
- 
+import Spinner from './Spinner'
 
 
 const Home = () => {
@@ -15,7 +15,7 @@ const Home = () => {
         const getData = async()=>{
             
             await axios.get(`${domain}/api/photos/`).then(res => {
-                setData(res.data)
+                setData(res?.data)
                 if(message){
                     toast.success(message, {autoClose: 2000,});
                     dispatch({type:'message',value:null})
@@ -41,9 +41,9 @@ const Home = () => {
             })
             .then(res =>{
                
-                dispatch({type:'albums',value:res.data})
+                dispatch({type:'albums',value:res?.data})
             })
-            .catch(err => console.log(err.response.data))
+            .catch(err => console.log(err.response?.data))
             
     };
     getData();
@@ -57,6 +57,10 @@ const Home = () => {
 
  
     const [showDetails, setshowDetails] = useState(false)
+
+    if (!Data){
+        return <Spinner/>
+    }
     
     return (
         <div className="container">

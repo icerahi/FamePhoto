@@ -8,7 +8,7 @@ import { domain, profile_url } from '../../env'
 import {toast} from 'react-toastify'
 import { useStateValue } from '../../state/StateProvider'
 import Select from 'react-select' 
-
+import Spinner from '../Spinner'
 import Cookies from "js-cookie";
 
 const csrfCookie = Cookies.get("csrftoken");
@@ -56,7 +56,7 @@ const Profile = () => {
             })
             .then(res => {
                 console.log(res.data)
-                setData(res.data)
+                setData(res?.data)
                 // dispatch({type:'profile_data',value:res.data})
             })
 
@@ -105,6 +105,10 @@ const Change_pic=(e)=>{
     // }
 
 }
+
+    if (!Data){
+        return <Spinner/>
+    }
     return (
         
         <main>

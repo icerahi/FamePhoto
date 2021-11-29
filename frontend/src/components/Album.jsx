@@ -2,6 +2,8 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import {Link} from 'react-router-dom'
 import { domain } from '../env';
+import Spinner from './Spinner'
+
 const Album = () => {
     const [Data, setData] = useState(null)
 
@@ -11,7 +13,9 @@ const Album = () => {
         }
         get_data();
     },[])
-
+    if(!Data){
+        return <Spinner/>
+    }
     return (
         <div className="container"> 
         
