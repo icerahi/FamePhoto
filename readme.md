@@ -1,5 +1,6 @@
 # To Startup Application
-Live: https://famephoto.netlify.app/
+Live: https://fame-photo.web.app/
+Backend: https://inneedcloud.pythonanywhere.com/api/photos/
 
 # To start
 ```
