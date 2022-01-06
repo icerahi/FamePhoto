@@ -9,10 +9,10 @@ Live: https://fame-photo.web.app/
 
 Backend: https://inneedcloud.pythonanywhere.com/api/photos/
 
-## Tech Stack
+## Tech Stack 
 Reactjs, React Router, ContextAPI, Bootstrap, Python, Django, Django RestFramework
 
-## Features
+## Features 
 
 - Login/Register
 - Open feed page with all public pictures
