@@ -56,7 +56,7 @@ To run this project, you need to set up both the backend and frontend servers.
 ### 1\. Clone the Repository
 
 ```bash
-git clone [https://github.com/icerahi/FamePhoto.git](https://github.com/icerahi/FamePhoto.git)
+git clone https://github.com/icerahi/FamePhoto.git
 cd FamePhoto
 ```
 
